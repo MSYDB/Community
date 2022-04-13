@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.community.admin.course.refCourseUser.mapper.RefCourseUserDao">
+    <resultMap id="BaseResultMap" type="com.community.admin.course.refCourseUser.entity.RefCourseUser">
+        <result property="courseId" column="course_id" jdbcType="INTEGER"/>
+        <result property="userId" column="user_id" jdbcType="INTEGER"/>
+    </resultMap>
+    <select id="selectByUserId" resultType="com.community.admin.course.refCourseUser.entity.RefCourseUser">
+        select *
+        from ref_course_user
+        where user_id = #{userId};
+    </select>
+    <select id="listAll" resultType="com.community.admin.course.entity.Course">
+        select course.*
+        from ref_course_user
+        inner join course on ref_course_user.course_id = course.id
+        where ref_course_user.user_id = #{userId} limit #{pageNo}
+        , #{pageSize}
+    </select>
+</mapper>

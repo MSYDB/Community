@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.community.admin.rankingList.mapper.AuthorRecommendMapper">
+    <resultMap id="BaseResultMap" type="com.community.admin.wholesituation.entity.SysUser">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="user_name" jdbcType="VARCHAR" property="userName"/>
+        <result column="password" jdbcType="VARCHAR" property="password"/>
+        <result column="nick_name" jdbcType="VARCHAR" property="nickName"/>
+        <result column="real_name" jdbcType="VARCHAR" property="realName"/>
+        <result column="sex" jdbcType="INTEGER" property="sex"/>
+        <result column="age" jdbcType="INTEGER" property="age"/>
+        <result column="head_photo" jdbcType="VARCHAR" property="headPhoto"/>
+        <result column="phone" jdbcType="VARCHAR" property="phone"/>
+        <result column="email" jdbcType="VARCHAR" property="email"/>
+        <result column="register_time" jdbcType="DATE" property="registerTime"/>
+        <result column="vip_status" jdbcType="INTEGER" property="vipStatus"/>
+        <result column="study_money" jdbcType="INTEGER" property="studyMoney"/>
+        <result column="study_integration" jdbcType="INTEGER" property="studyIntegration"/>
+        <result column="improve_information" jdbcType="INTEGER" property="improveInformation"/>
+        <result column="update_time" jdbcType="DATE" property="updateTime"/>
+        <result column="fans_count" jdbcType="INTEGER" property="fansCount"/>
+    </resultMap>
+
+    <select id="authorRecommend" resultType="com.community.admin.wholesituation.entity.SysUser">
+        select distinct su.user_name, su.age, su.sex, su.fans_count totalBlogWeight from
+        (select t1.*, b.author_id from
+        (select bf.field_name,rbf.blog_id from blog_field bf
+        inner join ref_blog_field rbf on bf.id = rbf.field_id where field_id = #{fieldId}) t1
+        inner join blog b on t1.blog_id = b.id) t2
+        inner join sys_user su on t2.author_id = su.id
+        order by fans_count desc
+    </select>
+
+</mapper>

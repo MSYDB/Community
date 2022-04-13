@@ -1,0 +1,54 @@
+## 端口号  上下文路径
+server:
+  port: 8089
+
+## 数据源配置
+spring:
+  redis:
+    host: 175.27.233.200
+    port: 6379
+    database: 0
+    password: WDR375105
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://175.27.233.200/qingcheng_commuity?useUnicode=true&characterEncoding=utf8&serverTimezone=GMT%2B8
+    username: root
+    password: WDR375105
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+  #    配置发送邮件
+  mail:
+    #smtp服务主机  qq邮箱则为smtp.qq.com
+    host: smtp.qq.com
+    #服务协议
+    protocol: smtp
+    # 编码集
+    default-encoding: UTF-8
+    #发送邮件的账户
+    username: 624592689@qq.com
+    #授权码
+    password: rhgwnspiyzvhbdji
+    test-connection: true
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+
+# mybatis-plus配置
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    map-underscore-to-camel-case: true
+  typeAliasesPackage: com.community.admin.*.entity, com.community.admin.blog.entity, com.community.admin.entity #对应实体类
+  mapperLocations: classpath:mapper/*/*.xml, classpath:mapper/*.xml #xml 文件
+
+file:
+  path:
+    upload: D:/文件文件夹/
+    prefix: /filePrefix/
+
+ORDER_DEFAULT_KEY: 1234567890

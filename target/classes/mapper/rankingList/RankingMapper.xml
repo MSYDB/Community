@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.community.admin.rankingList.mapper.RankingMapper">
+    <resultMap id="BaseResultMap" type="com.community.admin.blog.entity.Blog">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="author_id" jdbcType="BIGINT" property="authorId"/>
+        <result column="title" jdbcType="VARCHAR" property="title"/>
+        <result column="content" jdbcType="VARCHAR" property="content"/>
+        <result column="status" jdbcType="INTEGER" property="status"/>
+        <result column="release_time" jdbcType="DATE" property="releaseTime"/>
+        <result column="pageview_count" jdbcType="INTEGER" property="pageViewCount"/>
+        <result column="approve_count" jdbcType="INTEGER" property="approveCount"/>
+        <result column="comment_count" jdbcType="INTEGER" property="commentCount"/>
+        <result column="collect_count" jdbcType="INTEGER" property="collectCount"/>
+        <result column="create_time" jdbcType="DATE" property="createTime"/>
+        <result column="update_time" jdbcType="DATE" property="updateTime"/>
+        <result column="is_top" jdbcType="INTEGER" property="isTop"/>
+    </resultMap>
+
+
+    <select id="ranking" resultType="java.lang.Double">
+        select id, (collect_count * 0.6 + approve_count * 0.3 + pageview_count * 0.1) total from blog b
+        order by total desc
+    </select>
+
+    <select id="selectId" resultType="java.lang.Double">
+        select (collect_count * 0.6 + approve_count * 0.3 + pageview_count * 0.1), id total from blog b
+        order by total desc
+
+    </select>
+
+
+    <select id="getMessage" parameterType="List" resultType="com.community.admin.blog.entity.Blog">
+        select b.id, su.nick_name, b.title, b.pageview_count, b.collect_count,
+        b.approve_count, b.release_time from blog b inner join sys_user su on b.author_id = su.id
+        where b.id in
+        4
+        <foreach collection="fzr" index="index" item="fzr" open="(" separator="," close=")">
+            5 #{fzr}
+            6
+        </foreach>
+    </select>
+
+    <select id="paiHang" resultType="com.community.admin.blog.entity.Blog">
+        select b.id, su.nick_name, b.title, b.pageview_count, b.collect_count,
+        b.approve_count, b.release_time,
+        (collect_count * 0.6 + approve_count * 0.3 + pageview_count * 0.1) total from blog b
+        inner join sys_user su on b.author_id = su.id order by total desc
+    </select>
+
+    <select id="authorPaiHang" resultType="com.community.admin.wholesituation.entity.SysUser">
+        select su.nick_name from ref_user_interestfield rui
+        inner join sys_user su on rui.user_id = su.id
+        where interest_field_id = #{fieldId} order by fans_count desc
+    </select>
+
+</mapper>

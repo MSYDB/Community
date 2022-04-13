@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.community.admin.wholesituation.mapper.SysUserMapper">
+    <select id="findPermissions" resultType="java.lang.String">
+        select DISTINCT sys_menu.menu_permission from(
+        select ref_user_role.user_id,ref_role_menu.menu_id
+        from ref_user_role inner join ref_role_menu on ref_user_role.role_id = ref_role_menu.role_id ) as a inner join
+        sys_menu on a.menu_id = sys_menu.id WHERE a.user_id = #{id}
+    </select>
+</mapper>

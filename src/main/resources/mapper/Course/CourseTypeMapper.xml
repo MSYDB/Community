@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.community.admin.course.courseChapter.mapper.CourseChaptersDao">
+    <resultMap id="BaseResultMap" type="com.community.admin.course.courseChapter.entity.CourseChapters">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="courseId" column="course_id" jdbcType="BIGINT"/>
+        <result property="uploadUserId" column="upload_user_id" jdbcType="BIGINT"/>
+        <result property="chapterTitle" column="chapter_title" jdbcType="VARCHAR"/>
+        <result property="filePath" column="file_path" jdbcType="VARCHAR"/>
+        <result property="fileSize" column="file_size" jdbcType="BIGINT"/>
+        <result property="orderNum" column="order_num" jdbcType="INTEGER"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <select id="listAll" resultType="com.community.admin.course.courseChapter.entity.CourseChapters">
+        select * from course_chapters
+        ${ew.customSqlSegment}
+    </select>
+</mapper>

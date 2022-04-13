@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.community.admin.blog.mapper.BlogMapper">
+
+    <insert id="RefBlogField">
+        insert into ref_blog_field (blog_id,field_id) values
+        <foreach collection="idList" item="idList" separator=",">
+            (#{blogId},#{idList})
+        </foreach>
+    </insert>
+    <insert id="RefBlogColumn">
+        insert into ref_blog_column (blog_id, column_id)
+        values (#{blogId}, #{columnId})
+    </insert>
+    <delete id="delRefBlogField">
+        delete
+        from ref_blog_field
+        where blog_id = #{blogId}
+    </delete>
+    <delete id="delRefBlogColumn">
+        delete
+        from ref_blog_column
+        where blog_id = #{blogId}
+    </delete>
+    <select id="filter" resultType="java.lang.Long">
+        select blog_id
+        from ref_blog_column
+        where column_id = #{columnId}
+    </select>
+    <select id="supportBlogList" resultType="com.community.admin.blog.entity.Blog">
+        select su.nick_name nickName,
+        blog.title,
+        blog.release_time releaseTime,
+        blog.pageview_count pageViewCount,
+        blog.approve_count approveCount,
+        blog.comment_count commentCount,
+        blog.collect_count collectCount
+        from blog
+        inner join sys_user su on su.id = blog.author_id
+        inner join user_blog_support ubs on ubs.blog_id = blog.id
+        where ubs.user_id = #{uid}
+    </select>
+    <select id="collectBlogList" resultType="com.community.admin.blog.entity.Blog">
+        select su.nick_name nickName,
+        blog.title,
+        blog.release_time releaseTime,
+        blog.pageview_count pageViewCount,
+        blog.approve_count approveCount,
+        blog.comment_count commentCount,
+        blog.collect_count collectCount
+        from blog
+        inner join sys_user su on su.id = blog.author_id
+        inner join user_blog_collect ubc on ubc.blog_id = blog.id
+        where ubc.user_id = #{uid}
+    </select>
+
+</mapper>
